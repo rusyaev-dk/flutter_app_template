@@ -14,9 +14,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }) : _settingsRepository = settingsRepository,
        _logger = logger,
        super(
-         const SettingsState(
-           locale: Locale(AppPreferences.defaultLanguageCode),
-         ),
+         const SettingsState(locale: Locale(AppConfig.defaultLanguageCode)),
        ) {
     _restoreLocale();
   }

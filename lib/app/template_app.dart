@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_template/app/app.dart';
+import 'package:flutter_app_template/di/di.dart';
 import 'package:flutter_app_template/features/error/error_screen.dart';
 import 'package:flutter_app_template/features/settings/presentation/presentation.dart';
 import 'package:flutter_app_template/features/splash/splash_screen.dart';
@@ -17,14 +18,14 @@ class TemplateApp extends StatefulWidget {
   });
 
   final GoRouter router;
-  final Future<AppConfig> Function() initDependencies;
+  final Future<AppScope> Function() initDependencies;
 
   @override
   State<TemplateApp> createState() => _TemplateAppState();
 }
 
 class _TemplateAppState extends State<TemplateApp> {
-  late Future<AppConfig> _initFuture;
+  late Future<AppScope> _initFuture;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _TemplateAppState extends State<TemplateApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<AppConfig>(
+    return FutureBuilder<AppScope>(
       future: _initFuture,
       builder: (_, snapshot) {
         switch (snapshot.connectionState) {
@@ -52,16 +53,16 @@ class _TemplateAppState extends State<TemplateApp> {
               );
             }
 
-            final appConfig = snapshot.data;
-            if (appConfig == null) {
+            final appScope = snapshot.data;
+            if (appScope == null) {
               return ErrorScreen(
                 error: 'Error initializing dependencies: diContainer = null',
                 stackTrace: null,
                 onRetry: _retryInit,
               );
             }
-            return AppInitializer(
-              appConfig: appConfig,
+            return AppProvidersWrapper(
+              appScope: appScope,
               child: _App(router: widget.router),
             );
         }

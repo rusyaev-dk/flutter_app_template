@@ -8,6 +8,7 @@ import 'package:flutter_app_template/app/app.dart';
 import 'package:flutter_app_template/core/data/data.dart';
 import 'package:flutter_app_template/core/navigation/router.dart';
 import 'package:flutter_app_template/core/utils/utils.dart';
+import 'package:flutter_app_template/di/di.dart';
 import 'package:flutter_app_template/features/error/error_screen.dart';
 import 'package:flutter_app_template/runners/runners.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,12 +110,14 @@ class AppRunner {
     });
   }
 
-  Future<AppConfig> _initDependencies({
+  Future<AppScope> _initDependencies({
     required ILogger logger,
     required Talker talker,
     required AppEnv env,
     required TimerRunner timerRunner,
   }) async {
+    // TODO: remove the delay
+    await Future.delayed(Duration(milliseconds: 1500));
     logger.log('Build type: ${env.name}');
 
     final dio = Dio();
@@ -152,10 +155,15 @@ class AppRunner {
       JwtRefreshInterceptor(authTokenProvider: authTokenProvider),
     );
 
-    return AppConfig(
+    return AppScope(
+      env: env,
+      config: AppConfig(),
+      sharedPreferences: sharedPrefs,
+      flutterSecureStorage: flutterSecureStorage,
       storageAggregator: storageAggregator,
       talker: talker,
       dio: dio,
+      logger: logger,
     );
   }
 }

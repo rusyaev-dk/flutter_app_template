@@ -15,7 +15,6 @@ class SettingsRepository implements ISettingsRepository {
 
   @override
   Future<String> getCurrentLocale() async {
-    return await _storage.get(key: _localeKey) ??
-        AppPreferences.defaultLanguageCode;
+    return await _storage.get(key: _localeKey) ?? AppConfig.defaultLanguageCode;
   }
 }

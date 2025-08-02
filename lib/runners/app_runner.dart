@@ -145,7 +145,8 @@ class AppRunner {
       sharedPrefsStorage: sharedPrefsStorage,
     );
 
-    final httpClient = DioHttpClient(dio: dio);
+    final apiConfig = ApiConfig(env);
+    final httpClient = DioHttpClient(dio: dio, apiConfig: apiConfig);
     final authTokenProvider = AuthTokenProvider(
       httpClient: httpClient,
       tokenStorage: storageAggregator.secureStorage,
@@ -157,7 +158,8 @@ class AppRunner {
 
     return AppScope(
       env: env,
-      config: AppConfig(),
+      appConfig: AppConfig(),
+      apiConfig: apiConfig,
       sharedPreferences: sharedPrefs,
       flutterSecureStorage: flutterSecureStorage,
       storageAggregator: storageAggregator,

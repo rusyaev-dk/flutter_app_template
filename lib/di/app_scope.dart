@@ -9,7 +9,8 @@ import 'package:talker_flutter/talker_flutter.dart';
 final class AppScope {
   AppScope({
     required this.env,
-    required this.config,
+    required this.appConfig,
+    required this.apiConfig,
     required this.sharedPreferences,
     required this.flutterSecureStorage,
     required this.storageAggregator,
@@ -19,7 +20,8 @@ final class AppScope {
   });
 
   final AppEnv env;
-  final AppConfig config;
+  final AppConfig appConfig;
+  final ApiConfig apiConfig;
   final SharedPreferences sharedPreferences;
   final FlutterSecureStorage flutterSecureStorage;
   final StorageAggregator storageAggregator;

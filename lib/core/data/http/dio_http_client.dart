@@ -4,16 +4,19 @@ import 'package:dio/dio.dart';
 import 'package:flutter_app_template/core/data/data.dart';
 
 class DioHttpClient implements IHttpClient {
-  DioHttpClient({required Dio dio}) : _dio = dio;
+  DioHttpClient({required Dio dio, required ApiConfig apiConfig})
+    : _dio = dio,
+      _apiConfig = apiConfig;
 
   final Dio _dio;
+  final ApiConfig _apiConfig;
 
   Uri _makeUri({
     required String path,
     String? baseUrl,
     Map<String, dynamic>? parameters,
   }) {
-    final uri = Uri.parse('${baseUrl ?? ApiConfig.baseUrl}$path');
+    final uri = Uri.parse('${baseUrl ?? _apiConfig.baseUrl}$path');
     return parameters != null ? uri.replace(queryParameters: parameters) : uri;
   }
 
